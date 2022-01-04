@@ -27,3 +27,19 @@ def swap(i, j, array):
          
 array = [141, 1, 17, -7, -17, -27, 18, 541, 8, 7, 7] 
 print(insertionSort(array))
+
+
+def insertion_sort_01(elements):
+    for i in range(1, len(elements)):
+        while i > 0 and elements[i-1] > elements[i]:
+            # swap the elements
+            elements[i-1], elements[i] = elements[i], elements[i-1]
+            i -=1
+    return elements
+
+
+array = [141, 1, 17, -7, -17, -27, 18, 541, 8, 7, 7] 
+print(insertion_sort_01(array))
+
+
+
