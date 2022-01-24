@@ -1,58 +1,42 @@
-import os
-from collections import Counter
-from typing import List
+class Node:
+    def __init__(self, key, val) -> None:
+        self.key = key
+        self.val = val
+        self.next = self.prev = None
 
 
+class LRUCache:
+    def __init__(self, cap) -> None:
+        self.cap = cap
+        self.cache = {}
 
-# files = ["ashish.jpg", "ashish1.jpg", "ashish2.jpg", "ashish3.jpg"]
+        # empty node
+        self.left, self.right = Node(0, 0), Node(0, 0)
+        self.left.next, self.right.prev = self.right, self.left
 
-def check_file_names(files: List[str]):
-    all_files = []
+    def insert(self, node):
+        ...
 
-    def get_file_with_counter(all_files, file, idx = 0):
-        f_name, ext = os.path.splitext(file)
-        idx = int(idx +1)
-        f_name = f_name + str(idx) + ext
-        print(f_name, "----")
-        print(all_files)
+    def remove(self, node):
+        prev, next = node.prev, node.next
+        prev.next, next.prev = next, prev
 
-        if f_name in all_files:
-            get_file_with_counter(all_files, f_name, idx )
+    def get(self, key):
+        if key in self.cache:
+            # remove from the previous and insert at the end
+            self.remove(self.cache[key])
+            self.insert(self.cache[key])
+            return self.cache[key]
+        return -1
 
-        all_files.append(f_name)
+    def put(self, key, val):
+        if key in self.cache:
+            self.remove(self.cache[key])
+        self.cache[key] = Node(key, val)
+        self.insert(self.cache[key])
 
-        
-    if not files:
-        return all_files
-    
-    for file in files:
-        if not file in all_files:
-            print(file)
-            all_files.append(file)
-        else:
-            idx = 0
-            get_file_with_counter(all_files, file, idx)
-    
-    return all_files
-
-    
-
-
-
-
-files = ["ashish.jpg", "ashish1.jpg", "ashish2.jpg", "ashish.jpg","ashish1.jpg"]
-print(check_file_names(files))
-
-
-    
-
-
-
-
-
-
-
-
-
-
+        if len(self.cache) > self.cap:
+            lru = self.left.next
+            self.remove(lru)
+            del self.cache[key].val
 
