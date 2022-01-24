@@ -21,7 +21,7 @@ class Solution:
 def main():
     sl = Solution()
     s = "pwwkew"
-    s = "abcabcbb"
+    # s = "abcabcbb"
     print(sl.longest_substring_without_repeation(s))
 
 
